@@ -15,3 +15,22 @@ POST http://localhost:3000/api/v1/routing HTTP/1.1
 Content-Type: application/json
 
 { "stream1": "2020-08-final"}
+
+###
+
+# Restore to default
+
+POST http://localhost:3000/api/v1/routing HTTP/1.1
+Content-Type: application/json
+
+{ "stream1": "in1", "stream2": "in2"}
+
+
+###
+
+# Swap in1 and in2
+
+POST http://localhost:3000/api/v1/routing HTTP/1.1
+Content-Type: application/json
+
+{ "stream1": "in2", "stream2": "in1"}
