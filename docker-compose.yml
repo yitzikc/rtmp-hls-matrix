@@ -1,0 +1,23 @@
+version: "3"
+services:
+  nginx-in:
+    image: tiangolo/nginx-rtmp
+    container_name: nginx-in
+    restart: unless-stopped
+    ports:
+      - "1935:1935"
+
+  nginx-hls:
+    image: yitzikc/nginx-hls
+    container_name: nginx-hls
+    restart: unless-stopped
+    depends_on:
+      - nginx-in
+    ports:
+      - "11935:1935"
+      - "8080:80"
+    volumes:
+      - routing-config:/etc/nginx/dynamic
+
+volumes:
+  routing-config:

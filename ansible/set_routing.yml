@@ -1,5 +1,6 @@
 ---
-
+# An Ansible playbook which modifies the assignment of RTMP streaming keys on the input
+# to RTMP/HLS streams on the output, and restarts the Nginx container.
 
 - name: Set video routing
   connection: docker
@@ -7,7 +8,7 @@
   hosts: all
 
   vars:
-    video_routing_conf_path: /etc/nginx/video-routing.conf
+    video_routing_conf_path: /etc/nginx/dynamic/video-routing.conf
 
   tasks:
     - name: Verify mapping is defined
@@ -18,7 +19,7 @@
     - name: Set video routing
       lineinfile:
         path: "{{ video_routing_conf_path }}"
-        regexp: "(^\\s*pull\\s+rtmp://localhost/incoming)/\\S+(\\s.*\\bname={{ item.key | regex_escape() }}\\s.+;\\s*)$"
+        regexp: "(^\\s*pull\\s+rtmp://nginx-in/live)/\\S+(\\s.*\\bname={{ item.key | regex_escape() }}\\b.*;\\s*)$"
         line: "\\1/{{ item.value }}\\2"
         backrefs: yes
         backup: yes
@@ -31,4 +32,8 @@
 
   handlers:
     - name: Nginx reload config
-      command: nginx -s reload
+      docker_container:
+        name: "{{ inventory_hostname }}"
+        state: started
+        restart: yes
+      delegate_to: localhost
