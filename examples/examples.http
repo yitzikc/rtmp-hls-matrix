@@ -1,0 +1,17 @@
+# Example invocations of the web-service
+
+###
+
+POST http://localhost:3000/api/v1/routing HTTP/1.1
+Content-Type: application/json
+
+{ "stream1": "dj7"}
+
+###
+
+# Test a stream name that with characters that have special meaning in regular expressions.
+
+POST http://localhost:3000/api/v1/routing HTTP/1.1
+Content-Type: application/json
+
+{ "stream1": "2020-08-final"}
