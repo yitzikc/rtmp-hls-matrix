@@ -1,0 +1,31 @@
+---
+
+
+- name: Set video routing
+  connection: docker
+  gather_facts: false
+  hosts: all
+
+  tasks:
+    - name: Verify mapping is defined
+      assert:
+        that:
+          - "streams_to_keys is defined"
+
+    - name: Set video routing
+      lineinfile:
+        path: /etc/nginx/video-routing.conf
+        regexp: "(^pull rtmp://localhost/incoming/)\\S+( name={{ item.key }} static;)$"
+        line: "\\1{{ item.value }}\\2"
+        backrefs: yes
+        backup: yes
+      loop: "{{ streams_to_keys | from_json | dict2items }}"
+      notify: Nginx reload config
+
+    - name: Verify Nginx can read the new config
+      command: nginx -t
+      changed_when: False
+
+  handlers:
+    - name: Nginx reload config
+      command: nginx -s reload
