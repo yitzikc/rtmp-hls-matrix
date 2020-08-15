@@ -6,6 +6,9 @@
   gather_facts: false
   hosts: all
 
+  vars:
+    video_routing_conf_path: /etc/nginx/video-routing.conf
+
   tasks:
     - name: Verify mapping is defined
       assert:
@@ -14,9 +17,9 @@
 
     - name: Set video routing
       lineinfile:
-        path: /etc/nginx/video-routing.conf
-        regexp: "(^pull rtmp://localhost/incoming/)\\S+( name={{ item.key }} static;)$"
-        line: "\\1{{ item.value }}\\2"
+        path: "{{ video_routing_conf_path }}"
+        regexp: "(^\\s*pull\\s+rtmp://localhost/incoming)/\\S+(\\s.*\\bname={{ item.key | regex_escape() }}\\s.+;\\s*)$"
+        line: "\\1/{{ item.value }}\\2"
         backrefs: yes
         backup: yes
       loop: "{{ streams_to_keys | from_json | dict2items }}"
