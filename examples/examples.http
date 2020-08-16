@@ -2,19 +2,19 @@
 
 ###
 
-POST http://localhost:3000/api/v1/routing HTTP/1.1
+PUT http://localhost:3000/api/v1/routing/stream1 HTTP/1.1
 Content-Type: application/json
 
-{ "stream1": "dj7"}
+{ "source": "dj7"}
 
 ###
 
 # Test a stream name that with characters that have special meaning in regular expressions.
 
-POST http://localhost:3000/api/v1/routing HTTP/1.1
+PUT http://localhost:3000/api/v1/routing/stream1 HTTP/1.1
 Content-Type: application/json
 
-{ "stream1": "2020-08-final"}
+{ "source": "2020-08-final"}
 
 ###
 
@@ -34,3 +34,25 @@ POST http://localhost:3000/api/v1/routing HTTP/1.1
 Content-Type: application/json
 
 { "stream1": "in2", "stream2": "in1"}
+
+# Malformed requests
+
+###
+
+# No 'source' value. Should return 400
+
+PUT http://localhost:3000/api/v1/routing/stream1 HTTP/1.1
+Content-Type: application/json
+
+{ "from": "dj7"}
+
+###
+
+PUT http://localhost:3000/api/v1/routing/stream1 HTTP/1.1
+Content-Type: application/json
+
+# 'source' value is null. Should return 400
+
+{ "source": null}
+
+###
