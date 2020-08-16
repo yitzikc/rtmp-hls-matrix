@@ -1,8 +1,8 @@
-import { createServer, Request, Response, plugins } from 'restify';
+import { createServer, Request, Next, Response, plugins } from 'restify';
 import { setRoutingOnNginx } from './routing-control';
 
 const setRouting = (
-  routings: object, res: Response, next: any
+  routings: object, res: Response, next: Next
 ) => {
     // FIXME: Set the type of next to something sensible!
     console.log("Applying routings %s", JSON.stringify(routings));
@@ -12,9 +12,9 @@ const setRouting = (
     (error: any) => {
       res.status(500);
       res.send({ message: "Failed to execute playbook" });
-    })
+    });
 
-    next();
+    return next();
 }
 
 let server = createServer();
@@ -23,26 +23,26 @@ server.use(plugins.bodyParser({
 
 
 const setMultipleRoutings = (
-  req: Request, res: Response, next: any
+  req: Request, res: Response, next: Next
 ) => {
   const routings = req.body;
-  setRouting(routings, res, next);
+  return setRouting(routings, res, next);
 }
 
 server.post('/api/v1/routing', setMultipleRoutings);
 
 const setSingleRouting = (
-  req: Request, res: Response, next: any
+  req: Request, res: Response, next: Next
 ) => {
   const newSource = req.body.source;
   if (newSource == undefined) {
     res.status(400);
     res.send({ message: "No source specified" });
-    return;
+    return next();
   }
 
   const routing = { [req.params.stream]: newSource.toString() };
-  setRouting(routing, res, next);
+  return setRouting(routing, res, next);
 }
 
 server.put('/api/v1/routing/:stream', setSingleRouting);
