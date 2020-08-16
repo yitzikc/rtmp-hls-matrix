@@ -50,6 +50,7 @@ server.put('/api/v1/routing/:stream', setSingleRouting);
 
 server.get('/ui/*', plugins.serveStatic({
   directory: join(__dirname, ".."),
+  default: 'index.html'
 }));
 
 server.listen(3000, () => {
