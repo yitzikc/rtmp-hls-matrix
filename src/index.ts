@@ -1,5 +1,6 @@
 import { createServer, Request, Next, Response, plugins } from 'restify';
 import { setRoutingOnNginx } from './routing-control';
+import { join } from 'path';
 
 const setRouting = (
   routings: object, res: Response, next: Next
@@ -47,6 +48,9 @@ const setSingleRouting = (
 
 server.put('/api/v1/routing/:stream', setSingleRouting);
 
+server.get('/ui/*', plugins.serveStatic({
+  directory: join(__dirname, ".."),
+}));
 
 server.listen(3000, () => {
   console.log('%s listening at %s', server.name, server.url);

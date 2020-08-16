@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>RTMP Controller</title>
+    
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- import the webpage's javascript file -->
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <h1>RTMP Controller</h1>
+    <h2>Stream 1</h2>
+    <p>
+      <label for="stream1source">Choose an input source:</label>
+      <select id="stream1source" type="select"></select>
+      <input type="button" value="Update" onclick="sendUpdate('stream1', 'update')"/>
+    </p>
+    <h2>Stream 2</h2>
+    <p>
+      <label for="stream2source">Choose an input source:</label>
+      <select id="stream2source" type="select"></select>
+      <input type="button" value="Update" onclick="sendUpdate('stream2', 'update')"/>
+    </p>
+  </body>
+</html>
