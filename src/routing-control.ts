@@ -8,10 +8,7 @@ export function  setRoutingOnNginx (routing: object) {
     playbook.variables({
         streams_to_keys: JSON.stringify(routing)
     });
-    let promise = playbook.exec().then(function(result: any) {
-        console.log(result.output);
-        console.log(result.code);
-    })
+    let promise = playbook.exec();
 
-    return;
+    return promise;
 }
