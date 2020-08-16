@@ -9,8 +9,9 @@ function loadSources() {
       // Update dropdowns
       sources = JSON.parse(this.responseText);
       var options = sources.map(s => "<option>" + s + "</option>").join("");
-      document.getElementById('stream1source').innerHTML = options;
-      document.getElementById('stream2source').innerHTML = options;
+      ['stream1sources', 'stream2sources'].forEach(function (id) {
+        document.getElementById(id).innerHTML = options;
+      });
     }
   };
   // HTTP basic auth set here, but not checked

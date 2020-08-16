@@ -18,13 +18,15 @@
     <h2>Stream 1</h2>
     <p>
       <label for="stream1source">Choose an input source:</label>
-      <select id="stream1source" type="select"></select>
+      <input type="text" list="stream1sources" id="stream1source"/>
+      <datalist id="stream1sources"></datalist>
       <input type="button" value="Update" onclick="sendUpdate('stream1', 'update')"/>
     </p>
     <h2>Stream 2</h2>
     <p>
       <label for="stream2source">Choose an input source:</label>
-      <select id="stream2source" type="select"></select>
+      <input type="text" list="stream2sources" id="stream2source"/>
+      <datalist id="stream2sources"></datalist>
       <input type="button" value="Update" onclick="sendUpdate('stream2', 'update')"/>
     </p>
   </body>
