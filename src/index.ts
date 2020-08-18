@@ -1,6 +1,7 @@
 import { createServer, Request, Next, Response, plugins } from 'restify';
 import { setRoutingOnNginx } from './routing-control';
 import { join } from 'path';
+const corsMiddleware = require('restify-cors-middleware');
 
 const setRouting = (
   routings: object, res: Response, next: Next
@@ -18,7 +19,13 @@ const setRouting = (
     return next();
 }
 
+// FIXME: Set a less naive CORS policy
+const cors = corsMiddleware ({
+  origins: ["*"]
+});
 let server = createServer();
+server.pre(cors.preflight);  
+server.use(cors.actual);  
 server.use(plugins.bodyParser({
 }));
 
