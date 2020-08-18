@@ -32,8 +32,9 @@
 
   handlers:
     - name: Nginx reload config
-      docker_container:
-        name: "{{ inventory_hostname }}"
-        state: started
-        restart: yes
+    # We use the docker command here to restart rather than the docker
+    # module, to work around an issue where using the module from
+    # within a container to restart another container causes it to
+    # stop and not restart.
+      command: docker restart "{{ inventory_hostname }}"
       delegate_to: localhost
