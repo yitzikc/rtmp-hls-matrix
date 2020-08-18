@@ -29,7 +29,7 @@ function sendUpdate(stream, action) {
     }
   };
   // HTTP basic auth set here, but not checked
-  xhttp.open("PUT", "http://localhost:3000/api/v1/routing/" + stream, true, "user", "pass");
+  xhttp.open("PUT", "/api/v1/routing/" + stream, true, "user", "pass");
   xhttp.setRequestHeader("Content-Type", "application/json");
   xhttp.send(JSON.stringify({ source: document.getElementById(stream + "source").value }));
 }
