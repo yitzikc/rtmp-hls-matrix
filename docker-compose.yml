@@ -19,5 +19,14 @@ services:
     volumes:
       - routing-config:/etc/nginx/dynamic
 
+  management:
+    build: .
+    container_name: management
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
 volumes:
   routing-config:

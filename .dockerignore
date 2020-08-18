@@ -1,0 +1,8 @@
+.git*
+.vscode/
+.env
+node_modules/
+build/
+examples/
+Dockerfile
+docker-compose.yml
